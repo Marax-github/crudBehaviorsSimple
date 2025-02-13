@@ -1,0 +1,75 @@
+<div class="container mt-4">
+    <h2 class="mb-3">User Management</h2>
+
+    <div>
+      <input type="text" [(ngModel)]="newUser.name" placeholder="Imię">
+      <input type="email" [(ngModel)]="newUser.email" placeholder="Email">
+      <input type="text" [(ngModel)]="newUser.phone" placeholder="Telefon">
+      <input type="text" [(ngModel)]="newUser.address" placeholder="Adres">
+      <select [(ngModel)]="newUser.status">
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    
+      <button (click)="addUser()">Dodaj użytkownika</button>
+    </div>
+
+    @if (editingUser) {
+    <div >
+      <h3>Edit User</h3>
+      <input [(ngModel)]="editingUser.name" placeholder="Name" />
+      <input [(ngModel)]="editingUser.email" placeholder="Email" disabled />
+      <input [(ngModel)]="editingUser.phone" placeholder="Phone" />
+      <input [(ngModel)]="editingUser.address" placeholder="Address" />
+      <select [(ngModel)]="editingUser.status">
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+      <button (click)="updateUser()">Save</button>
+      <button (click)="editingUser = null">Cancel</button>
+  </div>
+}
+  
+    
+      
+    
+    <table class="table table-striped table-hover mt-3">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users| async; track $index) {
+            <tr>
+              <td>{{$index + 1}}</td>
+              <td>{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td>{{user.address}}</td>   
+              <td>{{user.status}}</td>              
+              <td>
+                
+                <button class="btn btn-warning btn-sm" (click)="startEditing(user)">Edit</button>
+
+        
+                <button class="btn btn-danger btn-sm" (click)="removeUser(user.email)">Delete</button>
+                
+              </td>
+            </tr>
+          }
+        </tbody>
+        
+      </table>
+    
+
+
+</div>
+
+<!-- @for (user of users$ | async; track $index)  -->
