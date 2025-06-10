@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from '../users.service';
 import { Observable, Subscription } from 'rxjs';
+import { User } from '../users.model';
 
 
 @Component({
@@ -11,15 +12,15 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  user: any[] = [];
+  user: User[] = [];
 
   constructor(private userService: UserService){}
 
   private subscription!: Subscription;
   
-  editingUser: any = null;
+  editingUser: Partial<User> | null = null;
 
-  newUser = {name:'',email:'',phone:'',address:'',status:'Active'};
+  newUser: User = {name:'',email:'',phone:'',address:'',status:'Active'};
 
   addUser(){
       if(this.newUser.name && this.newUser.email){
@@ -32,7 +33,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.userService.removeUser(email);
   }
 
-  startEditing(user: any) {
+  startEditing(user: User) {
     this.editingUser = { ...user }; // Kopia obiektu, żeby nie zmieniać oryginału
 }
 
@@ -56,7 +57,7 @@ updateUser() {
     }
   }
 
-  get users(): Observable<any[]>{
+  get users(): Observable<User[]>{
     return this.userService.getUsers()
   }
 
